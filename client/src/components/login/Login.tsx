@@ -1,23 +1,41 @@
-import React, {useState} from 'react';
-import {View, TextInput, Button} from 'react-native';
+import React from 'react';
+import { View, TextInput, Button, Text, ActivityIndicator } from 'react-native';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+interface LoginProps {
+  onLogin: (username: string, password: string) => void;
+  isLoading: boolean;
+  error?: string;
+}
 
-  const handleLogin = () => {
-    console.log('Login');
+const Login: React.FC<LoginProps> = ({ onLogin, isLoading, error }) => {
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
+
+  const handleSubmit = () => {
+    onLogin(username, password);
   };
 
   return (
     <View>
-      <TextInput placeholder="Email" value={email} onChangeText={setEmail} />
+      <TextInput
+        placeholder="Username"
+        value={username}
+        onChangeText={setUsername}
+        editable={!isLoading}
+      />
       <TextInput
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
+        secureTextEntry
+        editable={!isLoading}
       />
-      <Button title="Login" onPress={handleLogin} />
+      {error && <Text style={{ color: 'red' }}>{error}</Text>}
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <Button title="Login" onPress={handleSubmit} />
+      )}
     </View>
   );
 };
