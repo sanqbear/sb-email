@@ -10,8 +10,18 @@ const LoginScreen = () => {
   const loginStatus = useAppSelector(state => state.login.loginStatus);
   const error = useAppSelector(state => state.login.error);
 
-  const handleLogin = async (_username: string, _password: string) => {
-    dispatch(loginRequest({username: _username, password: _password}));
+  const handleLogin = async (
+    _username: string,
+    _password: string,
+    _rememberMe: boolean,
+  ) => {
+    dispatch(
+      loginRequest({
+        username: _username,
+        password: _password,
+        rememberMe: _rememberMe,
+      }),
+    );
   };
 
   return (

@@ -12,6 +12,7 @@ interface LoginState {
   error?: string;
   username?: string;
   password?: string;
+  rememberMe?: boolean;
   token?: string;
 }
 
@@ -25,11 +26,16 @@ const loginSlice = createSlice({
   reducers: {
     loginRequest: (
       state,
-      action: PayloadAction<{username: string; password: string}>,
+      action: PayloadAction<{
+        username: string;
+        password: string;
+        rememberMe: boolean;
+      }>,
     ) => {
       state.loginStatus = LoginStatus.LOGIN_PROCESSING;
       state.username = action.payload.username;
       state.password = action.payload.password;
+      state.rememberMe = action.payload.rememberMe;
     },
     loginSuccess: (state, action: PayloadAction<{token: string}>) => {
       state.loginStatus = LoginStatus.LOGIN_SUCCESS;
