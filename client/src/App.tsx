@@ -1,11 +1,14 @@
-import React from 'react';
-import {Text, View} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import React, {useState} from 'react';
+import HomeScreen from './screens/HomeScreen';
+import LoginScreen from './screens/LoginScreen';
 
 const App = () => {
+  const [login, setLogin] = useState(false);
   return (
-    <View>
-      <Text>Hello World</Text>
-    </View>
+    <NavigationContainer>
+      {login ? <HomeScreen /> : <LoginScreen />}
+    </NavigationContainer>
   );
 };
 
