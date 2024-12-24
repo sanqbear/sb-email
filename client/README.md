@@ -1,1 +1,0 @@
-# Sanqbear e-mail client
