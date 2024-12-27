@@ -9,6 +9,11 @@ import {
   View,
 } from 'react-native';
 import '@/i18n';
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 interface LoginProps {
   onLogin: (email: string, password: string) => void;
@@ -17,11 +22,13 @@ interface LoginProps {
 const Login = ({onLogin}: LoginProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showMore, setShowMore] = useState(false);
   const [username, setUsername] = useState('');
   const [domain, setDomain] = useState('');
+  const [showMore, setShowMore] = useState(false);
   const loginState = useAppSelector(state => state.login);
   const {t} = useTranslation();
+
+  const showMoreHeight = useSharedValue(0);
 
   const handleLogin = () => {
     onLogin(email, password);
@@ -34,6 +41,19 @@ const Login = ({onLogin}: LoginProps) => {
     }
     setEmail(text);
   };
+
+  const handleShowMore = () => {
+    showMoreHeight.value = showMore ? withTiming(0, {duration: 300}) : withTiming(120, {duration: 300});
+    setShowMore(!showMore);
+  };
+
+  const showMoreAnimatedStyle = useAnimatedStyle(
+    () => ({
+      height: showMoreHeight.value,
+      opacity: showMoreHeight.value > 0 ? 1 : 0,
+    }),
+    [showMoreHeight],
+  );
 
   useEffect(() => {
     if (!loginState.isAuthenticated && loginState.error) {
@@ -69,31 +89,30 @@ const Login = ({onLogin}: LoginProps) => {
       <View style={styles.showMoreButtonContainer}>
         <TouchableOpacity
           style={styles.showMoreButton}
-          onPress={() => setShowMore(!showMore)}>
+          onPress={handleShowMore}>
           <Text style={styles.showMoreButtonText}>
             {showMore ? t('hideMore') : t('showMore')}
           </Text>
         </TouchableOpacity>
-        {showMore && (
-          <View style={styles.showMoreContainer}>
-            <TextInput
-              style={styles.input}
-              placeholder={t('username')}
-              value={username}
-              onChangeText={setUsername}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder={t('domain')}
-              value={domain}
-              onChangeText={setDomain}
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
-          </View>
-        )}
+        <Animated.View
+          style={[styles.showMoreContainer, showMoreAnimatedStyle]}>
+          <TextInput
+            style={styles.input}
+            placeholder={t('username')}
+            value={username}
+            onChangeText={setUsername}
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder={t('domain')}
+            value={domain}
+            onChangeText={setDomain}
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+        </Animated.View>
       </View>
     </View>
   );
@@ -135,6 +154,11 @@ const styles = StyleSheet.create({
   showMoreButtonText: {
     color: '#2C4D40',
     textAlign: 'right',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
 
