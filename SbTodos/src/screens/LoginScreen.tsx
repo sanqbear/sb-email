@@ -1,9 +1,10 @@
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, useColorScheme, View} from 'react-native';
 import Login from '@/components/login/Login';
 import {useAppDispatch} from '@/hooks';
 import {loginRequest} from '@/contexts/login/loginReducer';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {Colors, DarkColors} from '@/styles/colors';
 
 const LoginScreen = () => {
   const dispatch = useAppDispatch();
@@ -13,9 +14,9 @@ const LoginScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <>
+      <View style={styles.content}>
         <Login onLogin={handleLogin} />
-      </>
+      </View>
     </SafeAreaView>
   );
 };
@@ -23,8 +24,16 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    paddingHorizontal: 40,
+    backgroundColor: '#335847',
+  },
+  content: {
+    flex: 1,
+    marginTop: '70%',
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    borderColor: 'transparent',
+    borderWidth: 1,
+    backgroundColor: 'white',
   },
 });
 

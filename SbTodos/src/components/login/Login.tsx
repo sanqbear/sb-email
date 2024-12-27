@@ -43,12 +43,14 @@ const Login = ({onLogin}: LoginProps) => {
         autoCapitalize="none"
         autoCorrect={false}
       />
-      <View style={styles.button}>
-        <Button title="Login" onPress={handleLogin} />
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={handleLogin}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.showMoreContainer}>
         <TouchableOpacity onPress={() => setShowMore(!showMore)}>
-          <Text>{showMore ? 'Hide' : 'More Information'}</Text>
+          <Text>{showMore ? 'Hide ▲' : 'More Information ▼'}</Text>
         </TouchableOpacity>
         {showMore && (
           <View style={styles.showMoreContainer}>
@@ -77,16 +79,30 @@ const Login = ({onLogin}: LoginProps) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
+    paddingTop: 70,
+    paddingHorizontal: 10,
   },
   input: {
+    fontSize: 16,
     marginBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#2C4D40',
+  },
+  buttonContainer: {
+    marginTop: 16,
   },
   button: {
-    marginVertical: 16,
+    backgroundColor: '#2C4D40',
+    padding: 16,
+    borderRadius: 60,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
   },
   showMoreContainer: {
-    marginTop: 8,
+    marginTop: 18,
   },
 });
 
