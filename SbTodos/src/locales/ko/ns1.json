@@ -1,0 +1,9 @@
+{
+  "email": "이메일",
+  "password": "비밀번호",
+  "loginButton": "로그인",
+  "showMore": "자세히",
+  "hideMore": "숨기기",
+  "username": "사용자 이름",
+  "domain": "도메인"
+}

@@ -1,0 +1,9 @@
+{
+  "email": "Email",
+  "password": "Password",
+  "loginButton": "Login",
+  "showMore": "More Information",
+  "hideMore": "Hide",
+  "username": "Username",
+  "domain": "Domain"
+}
