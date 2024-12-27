@@ -1,12 +1,14 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useAppSelector} from '@/hooks';
 import {
-  Button,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import '@/i18n';
 
 interface LoginProps {
   onLogin: (email: string, password: string) => void;
@@ -18,25 +20,41 @@ const Login = ({onLogin}: LoginProps) => {
   const [showMore, setShowMore] = useState(false);
   const [username, setUsername] = useState('');
   const [domain, setDomain] = useState('');
+  const loginState = useAppSelector(state => state.login);
+  const {t} = useTranslation();
 
   const handleLogin = () => {
     onLogin(email, password);
   };
 
+  const handleChangeEmail = (text: string) => {
+    if (username.trim() === '' || email === username) {
+      setDomain('');
+      setUsername(text);
+    }
+    setEmail(text);
+  };
+
+  useEffect(() => {
+    if (!loginState.isAuthenticated && loginState.error) {
+      setShowMore(true);
+    }
+  }, [loginState.isAuthenticated, loginState.error]);
+
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Email"
+        placeholder={t('email')}
         value={email}
-        onChangeText={setEmail}
+        onChangeText={handleChangeEmail}
         keyboardType="email-address"
         autoCapitalize="none"
         autoCorrect={false}
       />
       <TextInput
         style={styles.input}
-        placeholder="Password"
+        placeholder={t('password')}
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -45,18 +63,22 @@ const Login = ({onLogin}: LoginProps) => {
       />
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>{t('loginButton')}</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.showMoreContainer}>
-        <TouchableOpacity onPress={() => setShowMore(!showMore)}>
-          <Text>{showMore ? 'Hide ▲' : 'More Information ▼'}</Text>
+        <TouchableOpacity
+          style={styles.showMoreButton}
+          onPress={() => setShowMore(!showMore)}>
+          <Text style={styles.showMoreButtonText}>
+            {showMore ? t('hideMore') : t('showMore')}
+          </Text>
         </TouchableOpacity>
         {showMore && (
           <View style={styles.showMoreContainer}>
             <TextInput
               style={styles.input}
-              placeholder="Username"
+              placeholder={t('username')}
               value={username}
               onChangeText={setUsername}
               autoCapitalize="none"
@@ -64,7 +86,7 @@ const Login = ({onLogin}: LoginProps) => {
             />
             <TextInput
               style={styles.input}
-              placeholder="Domain"
+              placeholder={t('domain')}
               value={domain}
               onChangeText={setDomain}
               autoCapitalize="none"
@@ -103,6 +125,13 @@ const styles = StyleSheet.create({
   },
   showMoreContainer: {
     marginTop: 18,
+  },
+  showMoreButton: {
+    width: '100%',
+  },
+  showMoreButtonText: {
+    color: '#2C4D40',
+    textAlign: 'right',
   },
 });
 

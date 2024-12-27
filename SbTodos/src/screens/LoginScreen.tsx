@@ -1,10 +1,9 @@
 import React from 'react';
-import {StyleSheet, useColorScheme, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import Login from '@/components/login/Login';
 import {useAppDispatch} from '@/hooks';
 import {loginRequest} from '@/contexts/login/loginReducer';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Colors, DarkColors} from '@/styles/colors';
 
 const LoginScreen = () => {
   const dispatch = useAppDispatch();
