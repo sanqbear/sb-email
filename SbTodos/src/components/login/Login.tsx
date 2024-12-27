@@ -66,7 +66,7 @@ const Login = ({onLogin}: LoginProps) => {
           <Text style={styles.buttonText}>{t('loginButton')}</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.showMoreContainer}>
+      <View style={styles.showMoreButtonContainer}>
         <TouchableOpacity
           style={styles.showMoreButton}
           onPress={() => setShowMore(!showMore)}>
@@ -122,6 +122,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 16,
+  },
+  showMoreButtonContainer: {
+    marginTop: 18,
   },
   showMoreContainer: {
     marginTop: 18,
