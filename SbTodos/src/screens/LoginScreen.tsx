@@ -7,8 +7,13 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 
 const LoginScreen = () => {
   const dispatch = useAppDispatch();
-  const handleLogin = (email: string, password: string) => {
-    dispatch(loginRequest({email, password}));
+  const handleLogin = (
+    email: string,
+    password: string,
+    username: string,
+    domain?: string,
+  ) => {
+    dispatch(loginRequest({email, password, username, domain}));
   };
 
   return (

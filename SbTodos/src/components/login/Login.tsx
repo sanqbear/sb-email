@@ -16,7 +16,12 @@ import Animated, {
 } from 'react-native-reanimated';
 
 interface LoginProps {
-  onLogin: (email: string, password: string) => void;
+  onLogin: (
+    email: string,
+    password: string,
+    username: string,
+    domain?: string,
+  ) => void;
 }
 
 const Login = ({onLogin}: LoginProps) => {
@@ -31,7 +36,7 @@ const Login = ({onLogin}: LoginProps) => {
   const showMoreHeight = useSharedValue(0);
 
   const handleLogin = () => {
-    onLogin(email, password);
+    onLogin(email, password, username, domain);
   };
 
   const handleChangeEmail = (text: string) => {
@@ -43,7 +48,9 @@ const Login = ({onLogin}: LoginProps) => {
   };
 
   const handleShowMore = () => {
-    showMoreHeight.value = showMore ? withTiming(0, {duration: 300}) : withTiming(120, {duration: 300});
+    showMoreHeight.value = showMore
+      ? withTiming(0, {duration: 300})
+      : withTiming(120, {duration: 300});
     setShowMore(!showMore);
   };
 

@@ -1,19 +1,29 @@
 import {call, put, takeLatest} from 'redux-saga/effects';
 import {PayloadAction} from '@reduxjs/toolkit';
 import {loginRequest, loginSuccess, loginFailure} from './loginReducer';
+import loginAsync, {LoginResponse} from './loginApi';
 
-interface LoginResponse {
-  token: string;
-  user: {
-    id: string;
+function* loginSaga(
+  action: PayloadAction<{
     email: string;
-  };
-}
-
-function* loginSaga(action: PayloadAction<{email: string; password: string}>) {
+    password: string;
+    username: string;
+    domain?: string;
+  }>,
+) {
   try {
     // Replace this with your actual API call
     const response: LoginResponse = yield call(async () => {
+      try {
+        await loginAsync(
+          action.payload.email,
+          action.payload.password,
+          action.payload.username,
+          action.payload.domain,
+        );
+      } catch (e) {
+        console.log(e);
+      }
       await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call delay
 
       return {
@@ -25,12 +35,12 @@ function* loginSaga(action: PayloadAction<{email: string; password: string}>) {
       };
     });
 
-    yield put(
-      loginSuccess({
-        token: response.token,
-        user: response.user,
-      }),
-    );
+    // yield put(
+    //   loginSuccess({
+    //     token: response.token,
+    //     user: response.user,
+    //   }),
+    // );
   } catch (error) {
     yield put(
       loginFailure(error instanceof Error ? error.message : 'Login failed'),

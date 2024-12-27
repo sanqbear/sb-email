@@ -25,7 +25,7 @@ const loginSlice = createSlice({
   reducers: {
     loginRequest: (
       state,
-      _action: PayloadAction<{email: string; password: string}>,
+      _action: PayloadAction<{email: string; password: string; username: string; domain?: string;}>,
     ) => {
       state.isLoading = true;
       state.error = null;
